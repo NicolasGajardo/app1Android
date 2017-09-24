@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">App1</string>
+    <string name="titulo_aplicacion">Patente CHECKER</string>
+    <string name="hint_patente">Patente</string>
+    <string name="hint_marca">Marca</string>
+    <string name="hint_modelo">Modelo</string>
+    <string name="hint_anio">Año</string>
+    <string name="hint_valor_uf">Valor UF</string>
+    <string name="hint_antiguedad">Antiguedad</string>
+    <string name="hint_asegurable">Asegurable</string>
+    <string name="hint_valor_seguro">Valor Seguro</string>
+    <string name="boton_consultar">Consultar</string>
+    <string name="boton_volver">Volver</string>
+</resources>
