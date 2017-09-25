@@ -57,7 +57,7 @@ public class Output extends AppCompatActivity{
         boolean esValido = this.esValido(auxAntiguedad);
         antiguedad.setText(auxAntiguedad + " año(s)");
         valido.setText(esValido ? "Sí" : "No");
-        valorSeguro.setText("Valor seguro: " + this.valorSeguro(auxAntiguedad, valorUFIngresado) + "$");
+        valorSeguro.setText(this.valorSeguro(auxAntiguedad, valorUFIngresado) + "$");
 
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +111,8 @@ public class Output extends AppCompatActivity{
 
     private double valorSeguro(int antiguedad, double valorUf, boolean esValido) {
         if (esValido) {
-            return 0.1 * valorUf * (ANTIGUEDAD_MAX - antiguedad);
+                return antiguedad == 0 || antiguedad == 1 ?
+                        0.1 * valorUf : 0.1 * valorUf * (ANTIGUEDAD_MAX - (10 - antiguedad));
         }
         return 0;
     }
