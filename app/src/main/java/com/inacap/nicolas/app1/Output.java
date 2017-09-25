@@ -49,14 +49,14 @@ public class Output extends AppCompatActivity {
         marca.setText("Marca: " + bundle.getString("marca"));
         modelo.setText("Modelo: " + bundle.getString("modelo"));
         anio.setText("Año: " + anioAuto);
-        valorUF.setText("UF: " + valorUFIngresado);
+        valorUF.setText("UF: " + valorUFIngresado + "$");
 
         //Lógica
         int auxAntiguedad = this.calcularAntiguedad(anioAuto);
         boolean esValido = this.esValido(auxAntiguedad);
         antiguedad.setText(auxAntiguedad + " año(s)");
         valido.setText(esValido ? "Sí" : "No");
-        valorSeguro.setText("Valor seguro: " + this.valorSeguro(auxAntiguedad, valorUFIngresado));
+        valorSeguro.setText("Valor seguro: " + this.valorSeguro(auxAntiguedad, valorUFIngresado) + "$");
 
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
