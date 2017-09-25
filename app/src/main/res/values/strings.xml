@@ -11,4 +11,11 @@
     <string name="hint_valor_seguro">Valor Seguro ($)</string>
     <string name="boton_consultar">Consultar</string>
     <string name="boton_volver">Volver</string>
+    <string-array name="spinner_marca">
+        <item>Audi</item>
+        <item>Ford</item>
+        <item>Hyundai</item>
+        <item>Honda</item>
+        <item>Mercedes Benz</item>
+    </string-array>
 </resources>

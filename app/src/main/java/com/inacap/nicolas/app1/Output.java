@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Output extends AppCompatActivity {
+public class Output extends AppCompatActivity{
 
     private static final Calendar AUX_CALENDAR = Calendar.getInstance();
     private static final int ANTIGUEDAD_MAX = 10;
@@ -88,6 +89,7 @@ public class Output extends AppCompatActivity {
         envio.putExtra("patente", bundle.getString("patente"));
         envio.putExtra("marca", bundle.getString("marca"));
         envio.putExtra("modelo", bundle.getString("modelo"));
+        envio.putExtra("modelo_item_position", bundle.getInt("modelo_item_position"));
         envio.putExtra("anio", bundle.getInt("anio"));
         envio.putExtra("valorUF", bundle.getDouble("valorUF"));
         startActivity(envio);

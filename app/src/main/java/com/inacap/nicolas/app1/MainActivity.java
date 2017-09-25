@@ -4,22 +4,25 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final Calendar AUX_CALENDAR = Calendar.getInstance();
 
     private EditText patente;
     private EditText marca;
-    private EditText modelo;
+    private Spinner modelo;
     private EditText anio;
     private EditText valorUF;
     private Button consultar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +31,16 @@ public class MainActivity extends AppCompatActivity {
 
         patente = (EditText) findViewById(R.id.edt_patente);
         marca = (EditText) findViewById(R.id.edt_marca);
-        modelo = (EditText) findViewById(R.id.edt_modelo);
+        modelo = (Spinner) findViewById(R.id.spn_modelo);
         anio = (EditText) findViewById(R.id.edt_anio);
         valorUF = (EditText) findViewById(R.id.edt_valor_uf);
         consultar = (Button) findViewById(R.id.btn_consultar);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.spinner_marca, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        modelo.setAdapter(adapter);
+        modelo.setOnItemSelectedListener(this);
 
         consultar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
             patente.setText(bundle.getString("patente"));
             marca.setText(bundle.getString("marca"));
-            modelo.setText(bundle.getString("modelo"));
+            modelo.setSelection(bundle.getInt("modelo_item_position"));
             anio.setText("" + anioAuto);
             valorUF.setText("" + valorUFIngresado);
         }
@@ -60,8 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void enviarDatos() {
         //CHECK DATOS
-        if (!this.checkFields(patente, marca, modelo, anio, valorUF)) {
+        if (!this.checkFields(patente, marca, anio, valorUF)) {//modelo,
             return;
+        } else if (!this.checkFields(modelo)) {
+
         } else if (!this.checkAnioVehiculo(Integer.parseInt(anio.getText().toString()))) {
             Toast.makeText(this, "Año incorrecto", Toast.LENGTH_SHORT).show();
             return;
@@ -69,14 +80,16 @@ public class MainActivity extends AppCompatActivity {
 
         String patenteOutput = patente.getText().toString(),
                 marcaOutput = marca.getText().toString(),
-                modeloOutput = modelo.getText().toString();
-        int anioOutput = Integer.parseInt(anio.getText().toString());
+                modeloOutput = modelo.getSelectedItem().toString();
+        int anioOutput = Integer.parseInt(anio.getText().toString()),
+                modeloItemPosition = modelo.getSelectedItemPosition();
         double valorUFOutput = Double.parseDouble(valorUF.getText().toString());
 
         Intent envio = new Intent(MainActivity.this, Output.class);
         envio.putExtra("patente", patenteOutput);
         envio.putExtra("marca", marcaOutput);
         envio.putExtra("modelo", modeloOutput);
+        envio.putExtra("modelo_item_position", modeloItemPosition);
         envio.putExtra("anio", anioOutput);
         envio.putExtra("valorUF", valorUFOutput);
 
@@ -96,8 +109,32 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private boolean checkFields(Spinner... args) {
+        if (args.length == 0) {
+            return false;
+        }
+        for (Spinner spinner : args) {
+            System.out.println("Spinner flag: " + spinner.isSelected());
+            if (spinner.isSelected()) {
+                Toast.makeText(this, "Spinner incorrecto", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean checkAnioVehiculo(int anio) {
         int anioActual = AUX_CALENDAR.getInstance().get(Calendar.YEAR);
         return anio <= anioActual;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        System.out.println("onNothingSelected");
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        System.out.println("onItemSelected");
     }
 }
