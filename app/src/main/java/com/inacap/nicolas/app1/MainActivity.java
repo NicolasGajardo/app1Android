@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final Calendar AUX_CALENDAR = Calendar.getInstance();
 
     private EditText patente;
-    private EditText marca;
-    private Spinner modelo;
+    private EditText modelo;
+    private Spinner marca;
     private EditText anio;
     private EditText valorUF;
     private Button consultar;
@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
 
         patente = (EditText) findViewById(R.id.edt_patente);
-        marca = (EditText) findViewById(R.id.edt_marca);
-        modelo = (Spinner) findViewById(R.id.spn_modelo);
+        marca = (Spinner) findViewById(R.id.spn_marca);
+        modelo = (EditText) findViewById(R.id.edt_modelo);
         anio = (EditText) findViewById(R.id.edt_anio);
         valorUF = (EditText) findViewById(R.id.edt_valor_uf);
         consultar = (Button) findViewById(R.id.btn_consultar);
@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.spinner_marca, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        modelo.setAdapter(adapter);
-        modelo.setOnItemSelectedListener(this);
+        marca.setAdapter(adapter);
+        marca.setOnItemSelectedListener(this);
 
         consultar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             int anioAuto = bundle.getInt("anio");
 
             patente.setText(bundle.getString("patente"));
-            marca.setText(bundle.getString("marca"));
-            modelo.setSelection(bundle.getInt("modelo_item_position"));
+            modelo.setText(bundle.getString("modelo"));
+            marca.setSelection(bundle.getInt("marca_item_position"));
             anio.setText("" + anioAuto);
             valorUF.setText("" + valorUFIngresado);
         }
@@ -69,27 +69,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void enviarDatos() {
         //CHECK DATOS
-        if (!this.checkFields(patente, marca, anio, valorUF)) {//modelo,
+        if (!this.checkFields(patente, modelo, anio, valorUF)) {//modelo,
             return;
-        } else if (!this.checkFields(modelo)) {
-
+        } else if (!this.checkFields(marca)) {
+            return;
         } else if (!this.checkAnioVehiculo(Integer.parseInt(anio.getText().toString()))) {
             Toast.makeText(this, "Año incorrecto", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String patenteOutput = patente.getText().toString(),
-                marcaOutput = marca.getText().toString(),
-                modeloOutput = modelo.getSelectedItem().toString();
+                modeloOutput = modelo.getText().toString(),
+                marcaOutput = marca.getSelectedItem().toString();
         int anioOutput = Integer.parseInt(anio.getText().toString()),
-                modeloItemPosition = modelo.getSelectedItemPosition();
+                marcaItemPosition = marca.getSelectedItemPosition();
         double valorUFOutput = Double.parseDouble(valorUF.getText().toString());
 
         Intent envio = new Intent(MainActivity.this, Output.class);
         envio.putExtra("patente", patenteOutput);
         envio.putExtra("marca", marcaOutput);
         envio.putExtra("modelo", modeloOutput);
-        envio.putExtra("modelo_item_position", modeloItemPosition);
+        envio.putExtra("modelo_item_position", marcaItemPosition);
         envio.putExtra("anio", anioOutput);
         envio.putExtra("valorUF", valorUFOutput);
 

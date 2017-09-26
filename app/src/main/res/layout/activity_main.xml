@@ -28,23 +28,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/edt_marca"
-        android:maxLength="20"
-        android:inputType="text"
+    <TextView
         android:hint="@string/hint_marca"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
+    <Spinner
+        android:id="@+id/spn_marca"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></Spinner>
+
+    <EditText
+        android:id="@+id/edt_modelo"
+        android:maxLength="20"
+        android:inputType="text"
         android:hint="@string/hint_modelo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <Spinner
-        android:id="@+id/spn_modelo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></Spinner>
 
     <EditText
         android:id="@+id/edt_anio"
