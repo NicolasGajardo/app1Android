@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final Calendar AUX_CALENDAR = Calendar.getInstance();
 
     private EditText patente;
-    private EditText modelo;
     private Spinner marca;
+    private EditText modelo;
     private EditText anio;
     private EditText valorUF;
     private Button consultar;

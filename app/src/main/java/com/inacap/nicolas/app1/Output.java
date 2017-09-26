@@ -47,8 +47,8 @@ public class Output extends AppCompatActivity{
         int anioAuto = bundle.getInt("anio");
 
         patente.setText("Patente: " + bundle.getString("patente"));
-        modelo.setText("Modelo: " + bundle.getString("modelo"));
         marca.setText("Marca: " + bundle.getString("marca"));
+        modelo.setText("Modelo: " + bundle.getString("modelo"));
         anio.setText("Año: " + anioAuto);
         valorUF.setText("UF: " + valorUFIngresado + "$");
 
