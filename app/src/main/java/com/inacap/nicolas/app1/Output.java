@@ -112,7 +112,7 @@ public class Output extends AppCompatActivity{
     private double valorSeguro(int antiguedad, double valorUf, boolean esValido) {
         if (esValido) {
                 return antiguedad == 0 || antiguedad == 1 ?
-                        0.1 * valorUf : 0.1 * valorUf * (ANTIGUEDAD_MAX - (10 - antiguedad));
+                        0.1 * valorUf : 0.1 * valorUf * antiguedad;
         }
         return 0;
     }
