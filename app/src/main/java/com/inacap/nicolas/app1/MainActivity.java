@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } else if (!this.checkFields(mark)) {
             return;
         } else if (!this.checkVehicleYear(Integer.parseInt(year.getText().toString()))) {
-            Toast.makeText(this, "Año incorrecto", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Incorrect year", Toast.LENGTH_SHORT).show();
             return;
         }
 
