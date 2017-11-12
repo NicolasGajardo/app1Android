@@ -10,10 +10,10 @@
     android:gravity="center_horizontal">
 
     <TextView
-        android:id="@+id/txv_titulo"
+        android:id="@+id/txv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/titulo_aplicacion"
+        android:text="@string/application_tittle"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,50 +21,50 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edt_patente"
+        android:id="@+id/edt_patent"
         android:inputType="text"
         android:maxLength="6"
-        android:hint="@string/hint_patente"
+        android:hint="@string/hint_patent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:hint="@string/hint_marca"
+        android:hint="@string/hint_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Spinner
-        android:id="@+id/spn_marca"
+        android:id="@+id/spn_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></Spinner>
 
     <EditText
-        android:id="@+id/edt_modelo"
+        android:id="@+id/edt_model"
         android:maxLength="20"
         android:inputType="text"
-        android:hint="@string/hint_modelo"
+        android:hint="@string/hint_model"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/edt_anio"
+        android:id="@+id/edt_year"
         android:maxLength="4"
         android:inputType="number"
-        android:hint="@string/hint_anio"
+        android:hint="@string/hint_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/edt_valor_uf"
+        android:id="@+id/edt_uf_value"
         android:inputType="numberDecimal"
         android:maxLength="15"
-        android:hint="@string/hint_valor_uf"
+        android:hint="@string/hint_uf_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/btn_consultar"
-        android:text="@string/boton_consultar"
+        android:id="@+id/btn_consult"
+        android:text="@string/button_consult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

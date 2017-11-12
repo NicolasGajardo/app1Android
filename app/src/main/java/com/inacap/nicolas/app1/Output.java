@@ -3,36 +3,32 @@ package com.inacap.nicolas.app1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class Output extends AppCompatActivity{
 
     private static final Calendar AUX_CALENDAR = Calendar.getInstance();
-    private static final int ANTIGUEDAD_MAX = 10;
+    private static final int MAX_ANTIQUENESS = 10;
 
-    private TextView patente;
-    private TextView marca;
-    private TextView modelo;
-    private TextView anio;
-    private TextView valorUF;
+    private TextView patent;
+    private TextView mark;
+    private TextView model;
+    private TextView year;
+    private TextView ufValue;
 
-    //nuevas
-    private TextView antiguedad;
-    private TextView valido;
-    private TextView valorSeguro;
-    private Button volver;
-    private ImageView resultadoImagen;
+    //news
+    private TextView antiqueness;
+    private TextView valid;
+    private TextView secureValue;
+    private Button back;
+    private ImageView imgResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,87 +39,87 @@ public class Output extends AppCompatActivity{
 
         final Bundle bundle = this.getIntent().getExtras();
 
-        double valorUFIngresado = bundle.getDouble("valorUF");
-        int anioAuto = bundle.getInt("anio");
+        double insertedUFValue = bundle.getDouble("uf_value");
+        int vehicleYear = bundle.getInt("year");
 
-        patente.setText("Patente: " + bundle.getString("patente"));
-        marca.setText("Marca: " + bundle.getString("marca"));
-        modelo.setText("Modelo: " + bundle.getString("modelo"));
-        anio.setText("Año: " + anioAuto);
-        valorUF.setText("UF: " + valorUFIngresado + "$");
+        patent.setText("Patent: " + bundle.getString("patent"));
+        mark.setText("Mark: " + bundle.getString("mark"));
+        model.setText("Model: " + bundle.getString("model"));
+        year.setText("Year: " + vehicleYear);
+        ufValue.setText("UF: " + insertedUFValue + "$");
 
-        //Lógica
-        int auxAntiguedad = this.calcularAntiguedad(anioAuto);
-        boolean esValido = this.esValido(auxAntiguedad);
-        antiguedad.setText(auxAntiguedad + " año(s)");
-        valido.setText(esValido ? "Sí" : "No");
-        valorSeguro.setText(this.valorSeguro(auxAntiguedad, valorUFIngresado) + "$");
+        //Logic
+        int antiquenessAux = this.calculateAntiqueness(vehicleYear);
+        boolean isValid = this.isValid(antiquenessAux);
+        antiqueness.setText(antiquenessAux + " year(s)");
+        valid.setText(isValid ? "Yes" : "No");
+        secureValue.setText(this.secureCost(antiquenessAux, insertedUFValue) + "$");
 
-        volver.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                volver(bundle);
+                back(bundle);
             }
         });
 
-        this.setImgView(esValido);
+        this.setImgView(isValid);
     }
 
     private void initFields() {
 
-        patente = (TextView) findViewById(R.id.txv_patente);
-        marca = (TextView) findViewById(R.id.txv_marca);
-        modelo = (TextView) findViewById(R.id.txv_modelo);
-        anio = (TextView) findViewById(R.id.txv_anio);
-        valorUF = (TextView) findViewById(R.id.txv_valor_uf);
-        volver = (Button) findViewById(R.id.btn_volver);
-        resultadoImagen = (ImageView) findViewById(R.id.imv_resultado);
-        antiguedad = (TextView) findViewById(R.id.txv_antiguedad);
-        valido = (TextView) findViewById(R.id.txv_validez);
-        valorSeguro = (TextView) findViewById(R.id.txv_valor_seguro);
+        patent = (TextView) findViewById(R.id.txv_patent);
+        mark = (TextView) findViewById(R.id.txv_mark);
+        model = (TextView) findViewById(R.id.txv_model);
+        year = (TextView) findViewById(R.id.txv_year);
+        ufValue = (TextView) findViewById(R.id.txv_uf_value);
+        back = (Button) findViewById(R.id.btn_back);
+        imgResult = (ImageView) findViewById(R.id.imv_result);
+        antiqueness = (TextView) findViewById(R.id.txv_antiqueness);
+        valid = (TextView) findViewById(R.id.txv_validity);
+        secureValue = (TextView) findViewById(R.id.txv_security_cost);
     }
 
-    private void volver(Bundle bundle) {
+    private void back(Bundle bundle) {
 
-        Intent envio = new Intent(Output.this, MainActivity.class);
-        envio.putExtra("patente", bundle.getString("patente"));
-        envio.putExtra("marca", bundle.getString("marca"));
-        envio.putExtra("modelo", bundle.getString("modelo"));
-        envio.putExtra("marca_item_position", bundle.getInt("marca_item_position"));
-        envio.putExtra("anio", bundle.getInt("anio"));
-        envio.putExtra("valorUF", bundle.getDouble("valorUF"));
-        startActivity(envio);
+        Intent sender = new Intent(Output.this, MainActivity.class);
+        sender.putExtra("patent", bundle.getString("patent"));
+        sender.putExtra("mark", bundle.getString("mark"));
+        sender.putExtra("model", bundle.getString("model"));
+        sender.putExtra("mark_item_position", bundle.getInt("mark_item_position"));
+        sender.putExtra("year", bundle.getInt("year"));
+        sender.putExtra("uf_value", bundle.getDouble("uf_value"));
+        startActivity(sender);
     }
 
-    private int calcularAntiguedad(int anio) {
-        int anioActual = AUX_CALENDAR.getInstance().get(Calendar.YEAR);
+    private int calculateAntiqueness(int yearArg) {
+        int actualYear = AUX_CALENDAR.getInstance().get(Calendar.YEAR);
 
-        return anioActual - anio;
+        return actualYear - yearArg;
     }
 
-    private boolean esValido(int anios) {
-        return anios > ANTIGUEDAD_MAX ? false : true;
+    private boolean isValid(int years) {
+        return years > MAX_ANTIQUENESS ? false : true;
     }
 
-    private double valorSeguro(int antiguedad, double valorUf) {
-        return this.valorSeguro(antiguedad, valorUf, this.esValido(antiguedad));
+    private double secureCost(int oldness, double ufValue) {
+        return this.secureCost(oldness, ufValue, this.isValid(oldness));
     }
 
-    private double valorSeguro(int antiguedad, double valorUf, boolean esValido) {
-        if (esValido) {
-                return antiguedad == 0 || antiguedad == 1 ?
-                        0.1 * valorUf : 0.1 * valorUf * antiguedad;
+    private double secureCost(int oldness, double ufValue, boolean isValid) {
+        if (isValid) {
+                return oldness == 0 || oldness == 1 ?
+                        0.1 * ufValue : 0.1 * ufValue * oldness;
         }
         return 0;
     }
 
-    private void setImgView(boolean esValido) {
-        if (esValido) {
-            resultadoImagen.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.si_asegurado));
-            Toast.makeText(getApplicationContext(), "ASEGURADO", Toast.LENGTH_SHORT).show();
+    private void setImgView(boolean isValid) {
+        if (isValid) {
+            imgResult.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.secured));
+            Toast.makeText(getApplicationContext(), "SECURED", Toast.LENGTH_SHORT).show();
         } else {
-            resultadoImagen.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.no_asegurado));
-            Toast.makeText(getApplicationContext(), "NO ASEGURADO", Toast.LENGTH_SHORT).show();
+            imgResult.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.not_secured));
+            Toast.makeText(getApplicationContext(), "NOT SECURED", Toast.LENGTH_SHORT).show();
         }
 
     }

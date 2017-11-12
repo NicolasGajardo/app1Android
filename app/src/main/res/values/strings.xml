@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name">App1</string>
-    <string name="titulo_aplicacion">Patente CHECKER</string>
-    <string name="hint_patente">Patente</string>
-    <string name="hint_marca">Marca</string>
-    <string name="hint_modelo">Modelo</string>
-    <string name="hint_anio">Año</string>
-    <string name="hint_valor_uf">Valor UF</string>
-    <string name="hint_antiguedad">Antiguedad</string>
-    <string name="hint_asegurable">Asegurable</string>
-    <string name="hint_valor_seguro">Valor Seguro ($)</string>
-    <string name="boton_consultar">Consultar</string>
-    <string name="boton_volver">Volver</string>
-    <string-array name="spinner_marca">
+    <string name="application_tittle">PATENT CHECKER</string>
+    <string name="hint_patent">Patent</string>
+    <string name="hint_mark">Mark</string>
+    <string name="hint_model">Model</string>
+    <string name="hint_year">Year</string>
+    <string name="hint_uf_value">UF Value</string>
+    <string name="hint_antiqueness">Antiqueness</string>
+    <string name="hint_insurable">Insurable</string>
+    <string name="hint_security_cost">Security Cost ($)</string>
+    <string name="button_consult">Consult</string>
+    <string name="button_back">Back</string>
+    <string-array name="spinner_marks">
         <item>Audi</item>
         <item>Ford</item>
         <item>Hyundai</item>

@@ -10,10 +10,10 @@
     android:gravity="center_horizontal">
 
     <TextView
-        android:id="@+id/txv_titulo"
+        android:id="@+id/txv_tittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/titulo_aplicacion"
+        android:text="@string/application_tittle"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,73 +21,73 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txv_patente"
-        android:hint="@string/hint_patente"
+        android:id="@+id/txv_patent"
+        android:hint="@string/hint_patent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/txv_marca"
-        android:hint="@string/hint_marca"
+        android:id="@+id/txv_mark"
+        android:hint="@string/hint_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/txv_modelo"
-        android:hint="@string/hint_modelo"
+        android:id="@+id/txv_model"
+        android:hint="@string/hint_model"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/txv_anio"
-        android:hint="@string/hint_anio"
+        android:id="@+id/txv_year"
+        android:hint="@string/hint_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/txv_valor_uf"
-        android:hint="@string/hint_valor_uf"
+        android:id="@+id/txv_uf_value"
+        android:hint="@string/hint_uf_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:hint="@string/hint_antiguedad"
+        android:hint="@string/hint_antiqueness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/txv_antiguedad"
+        android:id="@+id/txv_antiqueness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:hint="@string/hint_asegurable"
+        android:hint="@string/hint_insurable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/txv_validez"
+        android:id="@+id/txv_validity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:hint="@string/hint_valor_seguro"
+        android:hint="@string/hint_security_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/txv_valor_seguro"
+        android:id="@+id/txv_security_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ImageView
-        android:id="@+id/imv_resultado"
+        android:id="@+id/imv_result"
         android:layout_width="300px"
         android:layout_height="300px" />
 
     <Button
-        android:id="@+id/btn_volver"
-        android:text="@string/boton_volver"
+        android:id="@+id/btn_back"
+        android:text="@string/button_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

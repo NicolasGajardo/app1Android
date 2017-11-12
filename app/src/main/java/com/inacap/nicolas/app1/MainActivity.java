@@ -11,89 +11,96 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import android.os.AsyncTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final Calendar AUX_CALENDAR = Calendar.getInstance();
+    private static final String URL_MARKS = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
 
-    private EditText patente;
-    private Spinner marca;
-    private EditText modelo;
-    private EditText anio;
+    private EditText patent;
+    private Spinner mark;
+    private EditText model;
+    private EditText year;
     private EditText valorUF;
-    private Button consultar;
+    private Button ask;
+    private JSONObject jsonObject;
 
+    private ArrayList<String> marks = new ArrayList<>();
+
+    private String markAux;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        patente = (EditText) findViewById(R.id.edt_patente);
-        marca = (Spinner) findViewById(R.id.spn_marca);
-        modelo = (EditText) findViewById(R.id.edt_modelo);
-        anio = (EditText) findViewById(R.id.edt_anio);
-        valorUF = (EditText) findViewById(R.id.edt_valor_uf);
-        consultar = (Button) findViewById(R.id.btn_consultar);
+        patent = (EditText) findViewById(R.id.edt_patent);
+        mark = (Spinner) findViewById(R.id.spn_mark);
+        model = (EditText) findViewById(R.id.edt_model);
+        year = (EditText) findViewById(R.id.edt_year);
+        valorUF = (EditText) findViewById(R.id.edt_uf_value);
+        ask = (Button) findViewById(R.id.btn_consult);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_marca, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        marca.setAdapter(adapter);
-        marca.setOnItemSelectedListener(this);
-
-        consultar.setOnClickListener(new View.OnClickListener() {
+        ask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enviarDatos();
+                sendData();
             }
         });
 
-        this.persistFields();
+        new ProcessJSON().execute(URL_MARKS);
+
     }
 
     private void persistFields() {
         Bundle bundle = this.getIntent().getExtras();
 
         if (bundle != null && !bundle.isEmpty()) {
-            double valorUFIngresado = bundle.getDouble("valorUF");
-            int anioAuto = bundle.getInt("anio");
+            double insertedUFValue = bundle.getDouble("uf_value");
+            int vehicleYear = bundle.getInt("year");
 
-            patente.setText(bundle.getString("patente"));
-            modelo.setText(bundle.getString("modelo"));
-            marca.setSelection(bundle.getInt("marca_item_position"));
-            anio.setText("" + anioAuto);
-            valorUF.setText("" + valorUFIngresado);
+            patent.setText(bundle.getString("patent"));
+            model.setText(bundle.getString("model"));
+            mark.setSelection(bundle.getInt("mark_item_position"));
+            year.setText("" + vehicleYear);
+            valorUF.setText("" + insertedUFValue);
         }
     }
 
-    private void enviarDatos() {
-        //CHECK DATOS
-        if (!this.checkFields(patente, modelo, anio, valorUF)) {//modelo,
+    private void sendData() {
+        //CHECK DATAS
+        if (!this.checkFields(patent, model, year, valorUF)) {//model,
             return;
-        } else if (!this.checkFields(marca)) {
+        } else if (!this.checkFields(mark)) {
             return;
-        } else if (!this.checkAnioVehiculo(Integer.parseInt(anio.getText().toString()))) {
+        } else if (!this.checkVehicleYear(Integer.parseInt(year.getText().toString()))) {
             Toast.makeText(this, "Año incorrecto", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String patenteOutput = patente.getText().toString(),
-                modeloOutput = modelo.getText().toString(),
-                marcaOutput = marca.getSelectedItem().toString();
-        int anioOutput = Integer.parseInt(anio.getText().toString()),
-                marcaItemPosition = marca.getSelectedItemPosition();
-        double valorUFOutput = Double.parseDouble(valorUF.getText().toString());
+        String patentOutput = patent.getText().toString(),
+                modelOutput = model.getText().toString(),
+                markOutput = mark.getSelectedItem().toString();
+        int yearOutput = Integer.parseInt(year.getText().toString()),
+                markItemPosition = mark.getSelectedItemPosition();
+        double ufValueOutput = Double.parseDouble(valorUF.getText().toString());
 
-        Intent envio = new Intent(MainActivity.this, Output.class);
-        envio.putExtra("patente", patenteOutput);
-        envio.putExtra("marca", marcaOutput);
-        envio.putExtra("modelo", modeloOutput);
-        envio.putExtra("modelo_item_position", marcaItemPosition);
-        envio.putExtra("anio", anioOutput);
-        envio.putExtra("valorUF", valorUFOutput);
+        Intent sender = new Intent(MainActivity.this, Output.class);
+        sender.putExtra("patent", patentOutput);
+        sender.putExtra("mark", markOutput);
+        sender.putExtra("model", modelOutput);
+        sender.putExtra("mark_item_position", markItemPosition);
+        sender.putExtra("year", yearOutput);
+        sender.putExtra("uf_value", ufValueOutput);
 
-        startActivity(envio);
+        startActivity(sender);
     }
 
     private boolean checkFields(EditText... args) {
@@ -102,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         for (EditText editText : args) {
             if (editText.getText().toString().isEmpty()) {
-                Toast.makeText(this, editText.getHint() + " incorrecto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Incorrect " +editText.getHint(), Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -116,16 +123,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         for (Spinner spinner : args) {
             System.out.println("Spinner flag: " + spinner.isSelected());
             if (spinner.isSelected()) {
-                Toast.makeText(this, "Spinner incorrecto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Incorrect Spinner ", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
         return true;
     }
 
-    private boolean checkAnioVehiculo(int anio) {
-        int anioActual = AUX_CALENDAR.getInstance().get(Calendar.YEAR);
-        return anio <= anioActual;
+    private boolean checkVehicleYear(int year) {
+        int actualYear = AUX_CALENDAR.getInstance().get(Calendar.YEAR);
+        return year <= actualYear;
     }
 
     @Override
@@ -137,4 +144,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         System.out.println("onItemSelected");
     }
+
+    private class ProcessJSON extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... strings){
+            String urlString = strings[0];
+            HTTPDataHandler hh = new HTTPDataHandler();
+            String stream = hh.GetHTTPData(urlString);
+            return stream;
+        }
+
+        protected void onPostExecute(String stream){
+
+            if(stream !=null){
+                try{
+                    JSONObject objectReader = new JSONObject(stream);
+                    JSONArray arrayReader = (JSONArray) objectReader.get("Results");
+
+                    for (int i = 0; i < arrayReader.length(); i++) {
+                        jsonObject = arrayReader.getJSONObject(i);
+                        markAux = jsonObject.getString("MakeName");
+                        marks.add(markAux);
+                    }
+                    mark.setAdapter(new ArrayAdapter<>(MainActivity.this,
+                            android.R.layout.simple_spinner_dropdown_item, marks));
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+            persistFields();
+        }
+    }
+
 }
