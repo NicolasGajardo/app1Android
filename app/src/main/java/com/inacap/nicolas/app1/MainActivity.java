@@ -33,9 +33,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private JSONObject jsonObject;
 
     private ArrayList<String> marks = new ArrayList<>();
-
-    private String markAux;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
         new ProcessJSON().execute(URL_MARKS);
-
+        this.persistFields();
     }
 
     private void persistFields() {
@@ -68,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             patent.setText(bundle.getString("patent"));
             model.setText(bundle.getString("model"));
-            mark.setSelection(bundle.getInt("mark_item_position"));
             year.setText("" + vehicleYear);
             valorUF.setText("" + insertedUFValue);
         }
@@ -154,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         protected void onPostExecute(String stream){
-
             if(stream !=null){
                 try{
                     JSONObject objectReader = new JSONObject(stream);
@@ -162,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                     for (int i = 0; i < arrayReader.length(); i++) {
                         jsonObject = arrayReader.getJSONObject(i);
-                        markAux = jsonObject.getString("MakeName");
+                        String markAux = jsonObject.getString("MakeName");
                         marks.add(markAux);
                     }
                     mark.setAdapter(new ArrayAdapter<>(MainActivity.this,
@@ -172,7 +168,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     e.printStackTrace();
                 }
             }
-            persistFields();
+
+            this.persistSpinner();
+        }
+
+        private void persistSpinner(){
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null && !bundle.isEmpty()) {
+                mark.setSelection(bundle.getInt("mark_item_position"));
+            }
         }
     }
 

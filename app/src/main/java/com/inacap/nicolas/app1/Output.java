@@ -49,11 +49,11 @@ public class Output extends AppCompatActivity{
         ufValue.setText("UF: " + insertedUFValue + "$");
 
         //Logic
-        int antiquenessAux = this.calculateAntiqueness(vehicleYear);
-        boolean isValid = this.isValid(antiquenessAux);
-        antiqueness.setText(antiquenessAux + " year(s)");
+        int auxAntiqueness = this.calculateAntiqueness(vehicleYear);
+        boolean isValid = this.isValid(auxAntiqueness);
+        antiqueness.setText(auxAntiqueness + " year(s)");
         valid.setText(isValid ? "Yes" : "No");
-        secureValue.setText(this.secureCost(antiquenessAux, insertedUFValue) + "$");
+        secureValue.setText(this.secureCost(auxAntiqueness, insertedUFValue) + "$");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
